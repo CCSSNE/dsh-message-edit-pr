@@ -503,8 +503,15 @@ function appendLogSeedEvent<T extends Exclude<SessionEventType, SurfaceEventType
   events: SessionEvent[],
   type: T,
   data: SessionEvent<T>['data'],
+  ignorable = false,
 ): void {
-  events.push({ type, seq: events.length, time: Date.now(), data } as SessionEvent<T>)
+  events.push({
+    type,
+    seq: events.length,
+    time: Date.now(),
+    data,
+    ...(ignorable ? { ignorable: true } : {}),
+  } as SessionEvent<T>)
 }
 
 function appendSurfaceSeedEvent<T extends SurfaceEventType>(
@@ -545,7 +552,7 @@ function versionSeed(source: Session, plan: OperationPlan): {
 } {
   const events = inheritedSeed(source, plan.boundary)
   const inheritedLength = events.length
-  appendLogSeedEvent(events, 'message-edit/version', plan.version)
+  appendLogSeedEvent(events, 'message-edit/version', plan.version, true)
   if (plan.manualTurn !== undefined) appendManualTurn(events, plan.manualTurn)
   return { events, inheritedLength }
 }
