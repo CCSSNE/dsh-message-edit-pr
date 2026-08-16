@@ -6,6 +6,11 @@
 
 `dsh-message-edit`（[npm](https://www.npmjs.com/package/dsh-message-edit) · [GitHub](https://github.com/Moeblack/dsh-message-edit)）为 DeepSeek Harness 补充基于事件溯源的「消息编辑与重生成」能力。编辑先写入当前会话的浏览器草稿，不会改写历史或创建分支；只有「保存并重新生成」、重生成或重试才会从目标回合之前创建一个新会话版本，原会话始终保留并可随时切回。
 
+本版本的两个核心改进：
+
+- **保存**只写入本地草稿缓存，可以继续编辑同一回合的其他消息；**保存并重新生成**才真正创建分支。
+- 新增红色**删除**按钮，可将整条用户或助手消息从新分支中真正移除，而不是改成空消息。
+
 ```bash
 dsh plugin --profile web add dsh-message-edit
 ```
